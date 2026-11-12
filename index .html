@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#06100a">
+<meta name="description" content="DIGITAL TRACE — интерактивный проект о цифровом следе и защите личных данных.">
+<title>Цифровой след — интерактивный проект</title>
+<style>
+:root{--bg:#050a07;--bg2:#08140c;--panel:#0b1a10;--panel2:#102419;--text:#e7ffe9;--muted:#8da992;--line:rgba(126,255,156,.19);--green:#61ff88;--green2:#b5ffc3;--acid:#d4ff42;--red:#ff5d70;--amber:#ffd166;--shadow:0 22px 70px rgba(0,0,0,.48);--mono:"IBM Plex Mono","Cascadia Code","Consolas",monospace}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 12% 0%,rgba(48,255,105,.12),transparent 32%),radial-gradient(ellipse at 85% 75%,rgba(24,130,65,.11),transparent 35%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.58;min-height:100vh}button,input{font:inherit}button{cursor:pointer}a{color:var(--green2)}::selection{background:var(--green);color:#06100a}.mono{font-family:var(--mono)}.app{min-height:100vh;display:flex;flex-direction:column;position:relative;isolation:isolate}.matrix{position:fixed;inset:0;width:100%;height:100%;z-index:-1;opacity:.17;pointer-events:none}.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(14px,4vw,54px);min-height:76px;border-bottom:1px solid var(--line);background:rgba(3,10,5,.88);backdrop-filter:blur(18px)}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--text);font-family:var(--mono);font-size:19px;font-weight:900;letter-spacing:.1em}.brand-icon{display:grid;place-items:center;width:40px;height:40px;border:1px solid var(--green);border-radius:9px;color:var(--green);box-shadow:0 0 22px rgba(97,255,136,.22);font-size:25px}.brand small{display:block;font-size:9px;color:var(--muted);letter-spacing:.2em}.top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.navbtn{border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--muted);border-radius:8px;padding:9px 13px;font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.04em;transition:.2s}.navbtn:hover{border-color:var(--green);color:var(--green2)}.navbtn.active{background:var(--green);color:#041008;border-color:var(--green);box-shadow:0 0 20px rgba(97,255,136,.18)}.statusline{font:10px var(--mono);color:var(--green);white-space:nowrap}.led{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);margin-right:6px}.view{display:none;flex:1}.view.active{display:block}.deck,.details-wrap,.survey-wrap{width:min(1180px,calc(100% - 34px));margin:0 auto;padding:30px 0 25px}.slide{display:none;min-height:min(700px,calc(100vh - 170px));animation:slideIn .35s ease both}.slide.active{display:flex;flex-direction:column;justify-content:center}.eyebrow{font:700 11px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--green);display:flex;align-items:center;gap:9px;margin-bottom:15px}.eyebrow:before{content:"";width:8px;height:8px;background:var(--green);box-shadow:0 0 15px var(--green);border-radius:50%}h1,h2,h3,p{margin-top:0}h1{font:900 clamp(43px,7vw,88px)/.96 var(--mono);letter-spacing:-.08em;margin-bottom:23px}h2{font:900 clamp(30px,5vw,55px)/1.04 var(--mono);letter-spacing:-.055em;margin-bottom:16px}h3{font-size:20px;line-height:1.2;margin-bottom:9px}.glitch{position:relative;color:var(--green);text-shadow:2px 0 rgba(255,0,60,.35),-2px 0 rgba(0,255,255,.22)}.glitch:after{content:attr(data-text);position:absolute;inset:0;color:var(--acid);opacity:.12;transform:translate(2px,-1px);clip-path:inset(45% 0 35% 0);pointer-events:none}.lead{font-size:clamp(16px,2vw,21px);color:#c2d9c7;max-width:760px}.muted{color:var(--muted)}.green{color:var(--green)}.acid{color:var(--acid)}.red{color:var(--red)}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:35px;align-items:center}.hero-visual{position:relative;min-height:440px;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:linear-gradient(145deg,#102d18,#07100a);box-shadow:var(--shadow)}.hero-visual img{width:100%;height:100%;min-height:440px;object-fit:cover;opacity:.62;display:block;filter:contrast(1.1) saturate(.85)}.hero-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(2,9,4,.95),transparent 75%),linear-gradient(90deg,rgba(3,15,7,.3),transparent)}.hero-terminal{position:absolute;z-index:2;left:18px;right:18px;bottom:18px;padding:15px 17px;background:rgba(2,10,4,.8);border:1px solid rgba(97,255,136,.34);border-radius:9px;backdrop-filter:blur(12px);font:12px/1.7 var(--mono);color:var(--green2)}.hero-terminal strong{display:block;color:var(--acid);font-size:15px}.terminal{padding:15px 17px;border:1px solid rgba(97,255,136,.35);background:rgba(0,0,0,.5);border-radius:10px;font:12px/1.8 var(--mono);color:#9fffae;box-shadow:inset 0 0 35px rgba(39,255,91,.04)}.terminal .dim{color:#63866d}.terminal .warn{color:var(--amber)}.terminal .bad{color:var(--red)}.terminal .cursor{display:inline-block;width:8px;height:14px;background:var(--green);vertical-align:middle;animation:blink 1s steps(2) infinite}.pills{display:flex;flex-wrap:wrap;gap:8px;margin:20px 0}.pill{border:1px solid var(--line);background:rgba(97,255,136,.055);border-radius:4px;padding:6px 10px;color:var(--green2);font:10px var(--mono);letter-spacing:.07em}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}.btn{border:1px solid var(--green);background:var(--green);color:#031008;padding:12px 18px;border-radius:6px;font:900 12px var(--mono);letter-spacing:.06em;box-shadow:0 0 22px rgba(97,255,136,.13);transition:.2s}.btn:hover{transform:translateY(-2px);box-shadow:0 0 27px rgba(97,255,136,.28)}.btn.secondary{background:rgba(97,255,136,.05);color:var(--green2);box-shadow:none}.btn.danger{background:rgba(255,93,112,.1);border-color:var(--red);color:#ff9aa6;box-shadow:none}.btn:disabled{opacity:.4;cursor:not-allowed;transform:none}.card-grid{display:grid;gap:15px}.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}.cols4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{border:1px solid var(--line);border-radius:11px;padding:21px;background:linear-gradient(150deg,rgba(20,53,28,.78),rgba(5,15,8,.88));box-shadow:0 12px 35px rgba(0,0,0,.19)}.card p{color:#a9c1ae}.card .emoji{font-size:28px;margin-bottom:13px}.card strong{color:var(--green2)}.photo-card{padding:0;overflow:hidden}.photo-card img{display:block;width:100%;height:180px;object-fit:cover;filter:saturate(.7) contrast(1.1)}.photo-body{padding:18px}.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}.visual{min-height:235px;position:relative;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#0a1a0d}.visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.24;filter:grayscale(.25) saturate(.7)}.visual-content{position:relative;padding:24px}.tag{display:inline-block;padding:5px 8px;border:1px solid var(--line);border-radius:3px;font:800 9px var(--mono);letter-spacing:.1em;color:var(--green);margin-bottom:12px}.tag.warn{color:var(--amber);border-color:rgba(255,209,102,.4)}.tag.redtag{color:#ff9aa6;border-color:rgba(255,93,112,.4)}.callout{border-left:3px solid var(--green);background:rgba(97,255,136,.055);padding:13px 16px;color:#b5d0bc;font-size:13px;margin-top:17px}.callout.warn{border-color:var(--amber);background:rgba(255,209,102,.06)}.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:22px 0}.stat{padding:20px;border:1px solid var(--line);border-radius:10px;background:linear-gradient(145deg,rgba(97,255,136,.08),rgba(7,20,10,.8))}.stat b{display:block;color:var(--green);font:900 clamp(33px,5vw,49px) var(--mono);line-height:1.05;margin-bottom:10px}.stat span{color:#b5ccb9;font-size:12px}.slide-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:25px;padding-top:15px;border-top:1px solid var(--line)}.slide-nav{display:flex;align-items:center;gap:8px}.round{width:39px;height:39px;border:1px solid var(--line);background:rgba(97,255,136,.06);color:var(--green);border-radius:5px;font:18px var(--mono)}.round:disabled{opacity:.3}.progress-wrap{height:4px;max-width:220px;flex:1;background:#18301e;border-radius:9px;overflow:hidden}.progress{height:100%;width:0;background:var(--green);box-shadow:0 0 12px var(--green);transition:width .3s}.dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}.dot{width:7px;height:7px;border:0;padding:0;border-radius:1px;background:#34533a}.dot.active{width:22px;background:var(--green);box-shadow:0 0 9px var(--green)}.slide-count{font:10px var(--mono);color:var(--muted);min-width:50px;text-align:center}.details-wrap,.survey-wrap{padding-top:43px;padding-bottom:65px}.section-hero{display:grid;grid-template-columns:1fr .7fr;align-items:center;gap:25px;margin-bottom:27px}.section-hero img{width:100%;height:245px;object-fit:cover;border:1px solid var(--line);border-radius:12px;filter:saturate(.7)}.tabs{display:flex;gap:7px;flex-wrap:wrap;margin:23px 0}.tab{background:rgba(97,255,136,.045);border:1px solid var(--line);color:var(--muted);padding:9px 12px;border-radius:4px;font:10px var(--mono)}.tab.active{background:var(--green);border-color:var(--green);color:#031008;font-weight:900}.panel{display:none;animation:slideIn .25s ease}.panel.active{display:block}.panel .card{margin-bottom:13px}.panel p,.panel li{color:#b2c9b7}.source{padding:14px 16px;border:1px solid var(--line);border-radius:8px;margin:10px 0;background:rgba(97,255,136,.035)}.source a{font-weight:800;text-decoration:none}.source small{display:block;color:var(--muted);margin-top:5px}.survey-shell{max-width:850px;margin:0 auto}.survey-frame{border:1px solid rgba(97,255,136,.35);background:rgba(3,12,6,.9);border-radius:13px;overflow:hidden;box-shadow:var(--shadow)}.frame-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;background:rgba(97,255,136,.07);border-bottom:1px solid var(--line);font:10px var(--mono);color:var(--green)}.frame-dots{display:flex;gap:5px}.frame-dots i{width:7px;height:7px;border-radius:50%;background:#376440}.frame-body{padding:clamp(19px,4vw,36px)}.survey-screen{display:none}.survey-screen.active{display:block;animation:slideIn .25s ease}.survey-label{font:800 10px var(--mono);color:var(--green);letter-spacing:.13em;text-transform:uppercase;margin-bottom:9px}.survey-title{font:900 clamp(23px,4vw,36px)/1.13 var(--mono);margin-bottom:12px}.survey-description{color:#a9c1ae;font-size:14px;margin-bottom:22px}.field{display:grid;gap:7px;margin:15px 0}.field label{font:800 10px var(--mono);color:var(--green2);letter-spacing:.06em}.field input{width:100%;padding:13px 14px;background:#07100a;border:1px solid rgba(97,255,136,.35);border-radius:5px;color:var(--text);outline:none}.field input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(97,255,136,.08)}.helper{font:10px/1.5 var(--mono);color:var(--muted)}.errorbox{display:none;margin:15px 0;padding:13px 15px;border:1px solid rgba(255,93,112,.5);background:rgba(255,93,112,.08);border-radius:6px;color:#ff9eaa;font:11px/1.6 var(--mono)}.question-progress{height:5px;background:#172c1b;border-radius:10px;overflow:hidden;margin:18px 0 24px}.question-progress>div{height:100%;background:var(--green);width:0;transition:width .2s}.question-number{font:10px var(--mono);color:var(--green);margin-bottom:9px}.question-text{font:800 clamp(18px,3vw,25px)/1.25 var(--mono);margin-bottom:20px}.option-list{display:grid;gap:9px}.option{display:flex;align-items:flex-start;gap:11px;padding:13px 14px;border:1px solid var(--line);border-radius:6px;background:rgba(97,255,136,.025);color:#c7dfcc;cursor:pointer}.option:hover{border-color:rgba(97,255,136,.55)}.option input{accent-color:var(--green);margin-top:4px}.survey-controls{display:flex;gap:9px;justify-content:space-between;align-items:center;margin-top:23px;flex-wrap:wrap}.consent{display:flex;align-items:flex-start;gap:10px;color:#b5cdbb;font-size:12px;margin-top:17px}.consent input{accent-color:var(--green);margin-top:3px}.survey-status{font:11px var(--mono);color:var(--muted);margin-top:14px}.survey-closed{padding:18px;border:1px dashed var(--amber);border-radius:8px;color:var(--amber);font:12px/1.7 var(--mono);display:none}.chart-grid{display:grid;gap:16px}.chart-card{padding:17px 18px;border:1px solid var(--line);border-radius:9px;background:rgba(5,18,8,.8)}.chart-card h3{font:700 13px/1.45 var(--mono);color:var(--green2)}.barline{display:grid;grid-template-columns:minmax(120px,1fr) 2fr 65px;gap:9px;align-items:center;margin:11px 0;font:10px var(--mono);color:#b6ccb9}.bartrack{height:9px;background:#15271a;border-radius:1px;overflow:hidden}.barfill{height:100%;background:linear-gradient(90deg,#36cc63,#c4ff70);box-shadow:0 0 10px rgba(97,255,136,.22)}.emptychart{padding:24px;border:1px dashed var(--line);border-radius:9px;color:var(--muted);font:12px/1.7 var(--mono)}.foot{padding:19px clamp(14px,4vw,54px);border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#6f8d76;font:10px var(--mono)}@keyframes blink{50%{opacity:0}}@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:850px){.hero-grid,.section-hero{grid-template-columns:1fr}.hero-visual,.hero-visual img{min-height:300px}.cols3{grid-template-columns:1fr 1fr}.cols4{grid-template-columns:1fr 1fr}.slide{min-height:auto;padding:25px 0 8px}.slide.active{justify-content:flex-start}}
+@media(max-width:580px){.topbar{align-items:flex-start;flex-direction:column}.top-actions{width:100%}.navbtn{flex:1;padding:9px 7px;font-size:9px}.statusline{display:none}.cols2,.cols3,.cols4,.split,.stat-row{grid-template-columns:1fr}.hero-visual,.hero-visual img{min-height:250px}.slide-foot{flex-wrap:wrap}.dots{order:3;width:100%}.progress-wrap{max-width:none}.barline{grid-template-columns:105px 1fr 52px;gap:6px;font-size:9px}.details-wrap,.survey-wrap{padding-top:25px}.frame-body{padding:18px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+button,.btn,.navbtn,.round,.option{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+img{max-width:100%}
+body{overflow-x:hidden;-webkit-text-size-adjust:100%;min-height:100vh;min-height:100svh}
+@media(max-width:700px){
+  .topbar{position:relative;align-items:stretch;flex-direction:column;gap:10px;padding:12px 14px}
+  .brand{font-size:17px}
+  .top-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;gap:7px}
+  .top-actions .statusline{display:none}
+  .navbtn{border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--muted);border-radius:8px;padding:9px 13px;font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.04em;transition:.2s}
+  .deck,.details-wrap,.survey-wrap{width:calc(100% - 24px);padding-top:20px;padding-bottom:28px}
+  .hero-grid,.section-hero,.split,.cols2,.cols3,.cols4,.stat-row{grid-template-columns:minmax(0,1fr)!important;gap:12px}
+  .slide{min-height:auto;padding:22px 0 10px}
+  .slide.active{justify-content:flex-start}
+  .hero-visual,.hero-visual img{min-height:235px;height:235px}
+  .hero-terminal{left:10px;right:10px;bottom:10px;padding:11px;font-size:11px}
+  h1{font-size:clamp(38px,12vw,62px);overflow-wrap:anywhere}
+  h2{font-size:clamp(27px,8vw,39px);overflow-wrap:anywhere}
+  .lead{font-size:16px}
+  .card{padding:16px}
+  .photo-card{padding:0}
+  .photo-card img{height:175px}
+  .visual{min-height:205px}
+  .visual-content{padding:17px}
+  .actions{display:grid;grid-template-columns:1fr;width:100%}
+  .actions .btn{width:100%;min-height:46px}
+  
+  .slide-foot{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:center}
+  .slide-nav{grid-column:1;grid-row:1}
+  .progress-wrap{grid-column:2;grid-row:1;max-width:none;width:100%}
+  .dots{grid-column:1/-1;grid-row:2;justify-content:center;gap:8px}
+  .dot{width:10px;height:10px}
+  .dot.active{width:25px}
+  .section-hero img{height:190px}
+  .tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+  .tab{min-height:42px;padding:10px 6px;white-space:normal}
+  .survey-shell{width:100%}
+  .survey-frame{border-radius:9px}
+  .frame-body{padding:15px}
+  .survey-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .survey-controls .btn{min-height:46px;width:100%;padding:10px 8px;font-size:11px}
+  .option{min-height:49px;padding:13px 11px;font-size:14px;line-height:1.4}
+  .option input{width:19px;height:19px;flex:0 0 19px}
+  .question-text{font-size:clamp(19px,5vw,23px);line-height:1.3}
+  .barline{grid-template-columns:minmax(0,1fr) 65px;gap:7px;font-size:11px;align-items:center}
+  .barline span{grid-column:1;grid-row:1;overflow-wrap:anywhere}
+  .barline strong{grid-column:2;grid-row:1;text-align:right}
+  .barline .bartrack{grid-column:1/-1;grid-row:2;width:100%}
+  .chart-card{padding:14px}
+  .foot{font-size:9px;line-height:1.6;padding:16px 12px;display:grid;grid-template-columns:1fr;gap:4px}
+}
+@media(max-width:380px){
+  .brand{font-size:15px;letter-spacing:.06em}
+  .navbtn{border:1px solid var(--line);background:rgba(0,0,0,.25);color:var(--muted);border-radius:8px;padding:9px 13px;font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.04em;transition:.2s}
+  .survey-title{font-size:24px}
+  .survey-controls{grid-template-columns:1fr}
+  .slide-count{min-width:42px}
+  .round{width:44px;height:44px}
+}
+@media(prefers-reduced-motion:reduce){.matrix{display:none}}
+
+
+/* Дополнительная устойчивость для мобильных браузеров и слабого соединения */
+html, body { width:100%; max-width:100%; overflow-x:hidden; }
+img { max-width:100%; }
+.offline-image { object-fit:cover; background:#07140b; }
+@media(max-width:700px){
+  .matrix { opacity:.08; }
+  .topbar { width:100%; }
+  .top-actions { min-width:0; }
+  .navbtn { min-width:0; overflow-wrap:anywhere; }
+  .view, main, .deck, .details-wrap, .survey-wrap { min-width:0; }
+  .slide, .card, .visual, .survey-frame, .chart-card { min-width:0; }
+  .question-text, .survey-description, .lead, .card p { overflow-wrap:anywhere; }
+  .survey-controls .btn { white-space:normal; }
+}
+
+</style>
+</head>
+<body>
+<canvas class="matrix" id="matrix" aria-hidden="true"></canvas>
+<div class="app">
+<header class="topbar">
+  <a class="brand" href="#top"><span class="brand-icon">⌘</span><span>ЦИФРОВОЙ_СЛЕД<small>НЕ ОСТАВЛЯЙ ЛИШНИХ СЛЕДОВ</small></span></a>
+  <div class="top-actions">
+    <span class="statusline"><i class="led"></i>СИСТЕМА АКТИВНА</span>
+    <button class="navbtn active" data-view="slides">01 // СЛАЙДЫ</button>
+    <button class="navbtn" data-view="details">02 // ДОСЬЕ</button>
+    <button class="navbtn" data-view="survey">03 // ПРОЙТИ ОПРОС</button>
+  </div>
+</header>
+
+<main id="slidesView" class="view active">
+<div class="deck" id="top">
+  <section class="slide active" data-title="Вход в систему">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">СЕКРЕТНОЕ ДОСЬЕ // ПРОЕКТ 9 КЛАССА</div>
+        <h1 class="glitch" data-text="ТВОИ ДАННЫЕ. ТВОЙ СЛЕД.">ТВОИ ДАННЫЕ.<br><span class="green">ТВОЙ СЛЕД.</span></h1>
+        <p class="lead">Интернет помнит больше, чем кажется. Каждый лайк, фотография и клик могут стать частью твоего цифрового следа.</p>
+        <div class="pills"><span class="pill">[ ЦИФРОВОЙ СЛЕД ]</span><span class="pill">[ ПРИВАТНОСТЬ ]</span><span class="pill">[ БЕЗОПАСНОСТЬ ]</span></div>
+        <div class="terminal"><div><span class="dim">оператор@след:~$</span> запуск_проекта.exe</div><div>> тема: цифровой след</div><div>> цель: понять, какие данные остаются в сети</div><div class="warn">> предупреждение: интернет ничего не забывает... почти.</div><div><span class="dim">оператор@след:~$</span> <span class="cursor"></span></div></div>
+        <div class="actions"><button class="btn" onclick="showSlide(1)">[ ВОЙТИ В СИСТЕМУ ]</button></div>
+      </div>
+      <div class="hero-visual"><img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?auto=format&fit=crop&w=1400&q=85" alt="Тёмная компьютерная система с зелёным свечением" onerror="показатьЗапасноеИзображение(this)"><div class="hero-terminal"><strong>СЛЕД ОБНАРУЖЕН // 001</strong><div>> пользователь вошёл в сеть</div><div>> следы активности обнаружены</div><div>> уровень угрозы: зависит от тебя</div><div class="warn">> совет системы: не выкладывай паспорт. Серьёзно.</div></div></div>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Введение и цель проекта">
+    <div class="eyebrow">01 // ВВЕДЕНИЕ</div><h2>Зачем мы вообще <span class="glitch green" data-text="это изучаем?">это изучаем?</span></h2>
+    <p class="lead">Интернет стал частью повседневной жизни: мы общаемся, учимся, играем, смотрим видео и ищем информацию. При этом многие действия оставляют сведения на сайтах, устройствах и серверах.</p>
+    <div class="card-grid cols2" style="margin-top:18px">
+      <article class="card"><div class="emoji">🎯</div><span class="tag">ЦЕЛЬ</span><h3>Изучить цифровой след</h3><p>Определить его основные виды и последствия, а также создать образовательный одностраничный сайт, который поможет подросткам лучше понимать цифровую приватность.</p></article>
+      <article class="card"><div class="emoji">🧠</div><span class="tag warn">ГИПОТЕЗА</span><h3>Не все замечают следы</h3><p>Предполагается, что часть школьников недостаточно хорошо различает активный и пассивный цифровой след и не всегда проверяет настройки приватности.</p></article>
+      <article class="card"><div class="emoji">🔎</div><span class="tag">ОБЪЕКТ</span><h3>Деятельность человека в интернете</h3><p>Изучаем действия пользователя в цифровой среде и то, какая информация появляется при работе с онлайн-сервисами.</p></article>
+      <article class="card"><div class="emoji">🧬</div><span class="tag">ПРЕДМЕТ</span><h3>Данные и сведения</h3><p>Рассматриваем сведения, которые возникают или собираются при использовании сайтов, приложений и устройств.</p></article>
+    </div>
+    <div class="callout">Задачи проекта: изучить понятие и виды цифрового следа, определить категории данных, рассмотреть пользу и риски, изучить способы защиты, провести анонимный опрос и разработать сайт.</div>
+    
+  </section>
+
+  <section class="slide" data-title="Понятие цифрового следа">
+    <div class="eyebrow">02 // ТЕОРИЯ</div><h2>Что такое <span class="green">цифровой след?</span></h2>
+    <p class="lead">Это совокупность сведений о действиях человека в цифровой среде. Данные могут быть опубликованы самим пользователем, другими людьми или сформированы автоматически.</p>
+    <div class="card-grid cols3" style="margin-top:20px">
+      <article class="card"><div class="emoji">📸</div><h3>Контент</h3><p>Фото, видео, комментарии, отзывы, сообщения и данные профиля.</p></article>
+      <article class="card"><div class="emoji">🧭</div><h3>История действий</h3><p>Посещённые страницы, запросы, просмотры, реакции и подписки.</p></article>
+      <article class="card"><div class="emoji">⚙️</div><h3>Технические записи</h3><p>Файлы cookie, параметры браузера, время посещения и сведения об ошибках.</p></article>
+    </div>
+    <div class="split" style="margin-top:17px"><div class="visual"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=80" alt="Смартфон и интернет" onerror="показатьЗапасноеИзображение(this)"><div class="visual-content"><span class="tag">ПРИМЕР</span><h3>Ты выложил фото</h3><p>Поздравляем. Ты только что добавил новую запись в собственную цифровую историю.</p></div></div><div class="visual"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80" alt="Серверы" onerror="показатьЗапасноеИзображение(this)"><div class="visual-content"><span class="tag warn">ВАЖНО</span><h3>Сайт записал технические сведения</h3><p>Некоторые данные могут сохраняться автоматически — даже без отдельной публикации.</p></div></div></div>
+    <div class="callout warn">Сам по себе цифровой след не является чем-то плохим. Проблема начинается, когда пользователь не понимает, что собирается, зачем и кому может передаваться.</div>
+    
+  </section>
+
+  <section class="slide" data-title="Активный и пассивный след">
+    <div class="eyebrow">03 // ДВА ТИПА СЛЕДА</div><h2>Активный или <span class="green">пассивный?</span></h2><p class="lead">Один и тот же сервис может формировать оба вида цифрового следа. Разница — в том, как появляется информация.</p>
+    <div class="split" style="margin-top:20px">
+      <article class="card photo-card"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85" alt="Человек публикует контент со смартфона" onerror="показатьЗапасноеИзображение(this)"><div class="photo-body"><span class="tag">АКТИВНЫЙ СЛЕД</span><h3>Активный след</h3><p>Человек сознательно размещает или передаёт информацию: публикует фото, пишет комментарий, заполняет анкету, отправляет сообщение или оставляет отзыв.</p></div></article>
+      <article class="card photo-card"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85" alt="Микросхема и технические данные" onerror="показатьЗапасноеИзображение(this)"><div class="photo-body"><span class="tag warn">ПАССИВНЫЙ СЛЕД</span><h3>Пассивный след</h3><p>Возникает при автоматической работе сервисов: файлы cookie, технические параметры браузера, время посещения, журналы ошибок и местоположение при разрешённом доступе.</p></div></article>
+    </div>
+    <div class="callout">Пример: публикация фотографии — активный след. Автоматическая запись технических сведений о сеансе — пассивный. Оба следа могут появиться одновременно.</div>
+  </section>
+
+  <section class="slide" data-title="Какие сведения собираются">
+    <div class="eyebrow">04 // КАТЕГОРИИ ДАННЫХ</div><h2>Что интернет может <span class="green">узнать?</span></h2><p class="lead">Набор данных зависит от функций сервиса, настроек пользователя, разрешений приложения и правил обработки персональных данных.</p>
+    <div class="card-grid cols3" style="margin-top:20px">
+      <article class="card"><div class="emoji">👤</div><h3>Личные сведения</h3><p>Имя, дата рождения, электронная почта, фотография профиля и данные регистрации.</p></article>
+      <article class="card"><div class="emoji">🖼️</div><h3>Публикации</h3><p>Фотографии, видео, комментарии, реакции, отзывы и сообщения.</p></article>
+      <article class="card"><div class="emoji">💻</div><h3>Технические данные</h3><p>Тип устройства, версия системы, браузер, IP-адрес и журналы работы сервиса.</p></article>
+      <article class="card"><div class="emoji">🔍</div><h3>Действия и интересы</h3><p>Посещённые страницы, запросы, просмотры, лайки и подписки.</p></article>
+      <article class="card"><div class="emoji">📍</div><h3>Местоположение</h3><p>Данные GPS или других функций устройства, если пользователь разрешил доступ.</p></article>
+      <article class="card"><div class="emoji">🧩</div><h3>Предположения о профиле</h3><p>Сервис может анализировать сигналы и подбирать рекомендации по предполагаемым интересам.</p></article>
+    </div>
+    <div class="callout warn">Отдельные сведения могут казаться безобидными, но вместе они способны раскрыть больше информации: привычки, интересы или примерное расписание человека.</div>
+    
+  </section>
+
+  <section class="slide" data-title="Польза цифровых данных">
+    <div class="eyebrow">05 // НЕ ТОЛЬКО УГРОЗА</div><h2>Данные могут быть <span class="green">полезными</span></h2>
+    <p class="lead">Цифровой след нужен не только для рекламы. Некоторые данные обеспечивают работу сервисов и помогают пользователю.</p>
+    <div class="card-grid cols2" style="margin-top:20px">
+      <article class="card"><div class="emoji">🔐</div><h3>Защита аккаунта</h3><p>Технические сведения помогают обнаруживать подозрительные входы и необычную активность.</p></article>
+      <article class="card"><div class="emoji">⚙️</div><h3>Удобство</h3><p>Сайты могут запоминать язык, настройки, авторизацию и содержимое корзины покупок.</p></article>
+      <article class="card"><div class="emoji">▶️</div><h3>Продолжение просмотра</h3><p>История просмотров помогает вернуться к ролику или материалу с того места, где остановился пользователь.</p></article>
+      <article class="card"><div class="emoji">🎓</div><h3>Обучение</h3><p>Цифровые платформы сохраняют выполненные задания, прогресс и результаты обучения.</p></article>
+    </div>
+    <div class="terminal" style="margin-top:18px"><div>> АНАЛИЗ ДАННЫХ: ЗАВЕРШЁН</div><div>> полезные функции обнаружены</div><div class="warn">> вывод: не нужно отключать всё подряд. Нужно понимать, что именно разрешаешь.</div></div>
+    
+  </section>
+
+  <section class="slide" data-title="Риски и последствия">
+    <div class="eyebrow">06 // УРОВЕНЬ УГРОЗЫ</div><h2>Что может пойти <span class="red">не так?</span></h2>
+    <div class="card-grid cols2" style="margin-top:18px">
+      <article class="card"><div class="emoji">🕵️</div><h3>Потеря приватности</h3><p>Открытый адрес, номер телефона, документы или точное местоположение могут стать доступны лишней аудитории.</p></article>
+      <article class="card"><div class="emoji">🎭</div><h3>Социальная инженерия</h3><p>Открытая информация может помочь мошеннику написать убедительное сообщение или выдать себя за знакомого.</p></article>
+      <article class="card"><div class="emoji">🪪</div><h3>Цифровая репутация</h3><p>Старые публикации могут сохраняться в скриншотах и распространяться вне первоначального контекста.</p></article>
+      <article class="card"><div class="emoji">🔓</div><h3>Потеря контроля</h3><p>Удаление оригинального поста не гарантирует, что другие люди не сохранили его копию.</p></article>
+    </div>
+    <div class="callout warn">Важно: сам факт цифрового следа не означает, что данные обязательно попадут к мошенникам. Риск зависит от характера сведений, настроек доступа, защиты аккаунта и самого сервиса.</div>
+    
+  </section>
+
+  <section class="slide" data-title="Способы защиты">
+    <div class="eyebrow">07 // ПРОТОКОЛ ЗАЩИТЫ</div><h2>Как уменьшить <span class="green">свой след?</span></h2>
+    <p class="lead">Полностью отказаться от цифрового следа невозможно. Но можно контролировать доступ к личной информации и не передавать лишние данные.</p>
+    <div class="card-grid cols2" style="margin-top:19px">
+      <article class="card"><h3>🛡️ Протокол из 7 правил</h3><p>1. Проверяй приватность аккаунтов.<br>2. Не публикуй адрес, телефон и документы.<br>3. Контролируй доступ приложений к геолокации, камере и микрофону.<br>4. Используй уникальные пароли.<br>5. Включай двухфакторную аутентификацию.<br>6. Проверяй ссылки и отправителей.<br>7. Думай перед публикацией.</p></article>
+      <article class="card photo-card"><img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1100&q=85" alt="Замок кибербезопасности на ноутбуке" onerror="показатьЗапасноеИзображение(this)"><div class="photo-body"><span class="tag">РЕЖИМ ПРИВАТНОСТИ</span><h3>Проверяй разрешения</h3><p>Если функция приложения не требует доступа к микрофону или геолокации, подумай, действительно ли нужно его выдавать.</p></div></article>
+    </div>
+  </section>
+
+  <section class="slide" data-title="Права пользователя GDPR">
+    <div class="eyebrow">08 // ЗАКОН И ПРИВАТНОСТЬ</div><h2>Твои данные — <span class="green">твои права</span></h2>
+    <div class="card-grid cols2" style="margin-top:18px">
+      <article class="card"><span class="tag">GDPR</span><h3>Общий регламент по защите данных</h3><p>В Европейском союзе GDPR устанавливает правила обработки персональных данных. Пользователь имеет право получить информацию об обработке данных и запросить доступ к ним.</p></article>
+      <article class="card"><div class="emoji">🧾</div><h3>Исправление и удаление</h3><p>Можно требовать исправления неточной информации, а в определённых случаях — удаления данных или ограничения обработки.</p></article>
+      <article class="card"><div class="emoji">📦</div><h3>Переносимость данных</h3><p>В предусмотренных законом случаях человек может получить данные в структурированном формате и передать их другому оператору.</p></article>
+      <article class="card"><div class="emoji">🧒</div><h3>Защита детей</h3><p>Персональные данные детей нуждаются в особой защите. Информация о сборе данных должна быть ясной и соответствовать возрасту аудитории.</p></article>
+    </div>
+    <div class="callout warn">Право на удаление не абсолютно: законодательство содержит исключения, например для выполнения юридических обязанностей или защиты правовых требований.</div>
+    
+  </section>
+
+  <section class="slide" data-title="Практическая часть и разработка сайта">
+    <div class="eyebrow">09 // ПРАКТИЧЕСКАЯ ЧАСТЬ</div><h2>От теории — к <span class="green">действию</span></h2>
+    <p class="lead">Практическая часть проекта включает анонимный электронный опрос школьников и разработку образовательного одностраничного сайта.</p>
+    <div class="split" style="margin-top:19px">
+      <div class="visual"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80" alt="Анализ данных на мониторе" onerror="показатьЗапасноеИзображение(this)"><div class="visual-content"><span class="tag">01 // АНКЕТА</span><h3>Анонимный опрос</h3><p>Семь вопросов о знании цифрового следа, использовании социальных сетей и привычках защиты приватности. Участие добровольное.</p></div></div>
+      <div class="visual"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=80" alt="Разработка цифрового продукта" onerror="показатьЗапасноеИзображение(this)"><div class="visual-content"><span class="tag">02 // САЙТ</span><h3>Образовательный ресурс</h3><p>Слайды, фотографии, иллюстрированные примеры, подробное досье, интерактивный тест и диаграммы опроса.</p></div></div>
+    </div>
+    <div class="stat-row"><div class="stat"><b>≈900</b><span>сайтов и приложений оценивались в международном мониторинге, упомянутом в проекте.</span></div><div class="stat"><b>30</b><span>сервисов составили отдельную эстонскую выборку мониторинга.</span></div><div class="stat"><b>7</b><span>вопросов в электронной анкете проекта.</span></div></div>
+    <div class="callout">Ответы добровольные и анонимные. ФИО, адреса электронной почты и другие идентификаторы не собираются. Общие результаты показываются на последнем слайде.</div>
+  </section>
+
+  <section class="slide" data-title="Контрольный тест">
+    <div class="eyebrow">10 // ПРОВЕРКА ЗНАНИЙ</div><h2>Проверка агента: <span class="green">уровень допуска</span></h2>
+    <p class="lead">Пять вопросов по материалам проекта. Это учебный мини-тест, не школьный опрос. Результат теста не сохраняется в таблице.</p>
+    <div id="knowledgeQuiz" class="card-grid" style="margin-top:18px"></div>
+    <div class="actions"><button class="btn" id="checkKnowledge">[ ПРОВЕРИТЬ ОТВЕТЫ ]</button><button class="btn secondary" id="resetKnowledge">[ СБРОСИТЬ ]</button></div>
+    <div id="knowledgeResult" class="callout" style="display:none;margin-top:15px" aria-live="polite"></div>
+    
+  </section>
+
+  <section class="slide" data-title="Итоги электронного опроса">
+    <div class="eyebrow">11 // РЕЗУЛЬТАТЫ ОПРОСА</div><h2>Что показало <span class="green">цифровое расследование?</span></h2>
+    <p class="lead">Здесь автоматически отображаются реальные ответы участников электронной анкеты. Показаны только общие количества и проценты — без имён и личных сведений.</p>
+    <div class="terminal" style="margin:15px 0"><div>> запрос общей статистики...</div><div>> личные данные: НЕ СОБИРАЮТСЯ</div><div>> построение графиков: ГОТОВО</div></div>
+    <div id="statsMeta" class="survey-status">Ожидание данных...</div>
+    <div id="statsContainer" class="chart-grid" style="margin-top:15px"><div class="emptychart">Пока нет отправленных ответов. Открой вкладку «Пройти опрос», ответь на семь вопросов и отправь анкету. После этого диаграммы появятся здесь.</div></div>
+    <div class="actions"><button class="btn secondary" id="refreshStats">[ ОБНОВИТЬ ГРАФИКИ ]</button><button class="btn" onclick="showView('survey')">[ ПРОЙТИ ОПРОС ]</button></div>
+    <div class="callout warn">Гипотезу можно оценивать только после получения реальных ответов. Не заменяй отсутствующие данные вымышленными цифрами.</div>
+  </section>
+
+  <section class="slide" data-title="Заключение">
+    <div class="eyebrow">12 // ЗАКЛЮЧЕНИЕ</div>
+    <h2>Безопасность в сети начинается <span class="green">с тебя.</span></h2>
+    <p class="lead">В ходе проекта мы рассмотрели, какие сведения человек оставляет в интернете, чем полезен цифровой след и какие риски связаны с избыточным раскрытием информации.</p>
+    <div class="card-grid cols2" style="margin-top:18px">
+      <article class="card"><div class="emoji">🧠</div><span class="tag">ГЛАВНЫЙ ВЫВОД</span><h3>Понимать важнее, чем бояться</h3><p>Цифровые данные помогают сервисам работать, сохранять настройки и защищать аккаунты. Важно понимать, какие сведения собираются и зачем.</p></article>
+      <article class="card"><div class="emoji">🛡️</div><span class="tag">ПРАКТИЧЕСКИЙ РЕЗУЛЬТАТ</span><h3>Осознанно управлять следом</h3><p>Проверять настройки приватности, контролировать разрешения приложений, использовать надёжные пароли и не публиковать лишние персональные сведения.</p></article>
+    </div>
+    <div class="terminal" style="margin-top:18px"><div>> цифровое расследование: завершено</div><div>> активный след: изучен</div><div>> пассивный след: изучен</div><div>> протокол защиты: изучен</div><div class="warn">> помни: прежде чем нажать «опубликовать», подумай, кто ещё это увидит.</div></div>
+    <div class="actions"><button class="btn" onclick="showSlide(0)">[ НА ГЛАВНУЮ ]</button><button class="btn secondary" onclick="showView('details')">[ ОТКРЫТЬ ДОСЬЕ ]</button></div>
+  </section>
+
+  <div class="slide-foot"><div class="slide-nav"><button class="round" id="prev" aria-label="Предыдущий слайд">←</button><button class="round" id="next" aria-label="Следующий слайд">→</button><span class="slide-count" id="slideCount">01 / 10</span></div><div class="progress-wrap"><div class="progress" id="progress"></div></div><div class="dots" id="dots"></div></div>
+</div>
+</main>
+
+<main id="detailsView" class="view"><div class="details-wrap">
+  <div class="section-hero"><div><div class="eyebrow">02 // ДОПОЛНИТЕЛЬНОЕ ДОСЬЕ</div><h2>Подробная <span class="green">информация</span></h2><p class="lead">Расширенные примеры, объяснения технологий, риски и способы защиты. Читай досье. Система не кусается. Обычно.</p></div><img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=85" alt="Кибербезопасность и цифровая сеть" onerror="показатьЗапасноеИзображение(this)"></div>
+  <div class="tabs"><button class="tab active" data-panel="examples">ПРИМЕРЫ</button><button class="tab" data-panel="tech">ТЕХНОЛОГИИ</button><button class="tab" data-panel="risks">РИСКИ</button><button class="tab" data-panel="rights">ПРАВА</button><button class="tab" data-panel="safety">ПАМЯТКА</button><button class="tab" data-panel="sources">ИСТОЧНИКИ</button></div>
+  <section class="panel active" id="panel-examples">
+    <div class="card-grid cols3">
+      <article class="card photo-card"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80" alt="Пользователь смартфона" onerror="показатьЗапасноеИзображение(this)"><div class="photo-body"><span class="tag">АКТИВНЫЙ СЛЕД</span><h3>Фото в соцсети</h3><p>На фоне могут оказаться название школы, документы, адрес или номер машины. Публикация может быть сохранена другими пользователями.</p></div></article>
+      <article class="card photo-card"><img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=900&q=80" alt="Фотографирование на смартфон" onerror="показатьЗапасноеИзображение(this)"><div class="photo-body"><span class="tag warn">МЕСТОПОЛОЖЕНИЕ</span><h3>Геометка фотографии</h3><p>Если устройство сохраняет геолокацию в фотографии, файл может содержать сведения о месте съёмки. Проверь настройки камеры и публикации.</p></div></article>
+      <article class="card photo-card"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80" alt="Серверные стойки" onerror="показатьЗапасноеИзображение(this)"><div class="photo-body"><span class="tag">ПАССИВНЫЙ СЛЕД</span><h3>Файлы cookie и посещение</h3><p>Сайт может сохранить выбранный язык, сеанс входа и технические сведения. Это не всегда опасно, но назначение данных должно быть понятно.</p></div></article>
+    </div>
+    <div class="callout warn">Иллюстрации показывают типовые ситуации. Не делай вывод о конкретном человеке по фотографии или отдельной детали.</div>
+  </section>
+  <section class="panel" id="panel-tech">
+    <article class="card"><h3>Файлы cookie</h3><p>Небольшие данные, которые сайт сохраняет в браузере. Они могут поддерживать вход в аккаунт, запоминать язык и настройки, сохранять содержимое корзины. Некоторые файлы cookie используются для аналитики или рекламы. Назначение зависит от конкретного сервиса.</p></article>
+    <article class="card"><h3>IP-адрес и технические журналы</h3><p>IP-адрес используется для обмена данными в сети. По нему иногда можно определить примерный регион или провайдера, но он сам по себе обычно не указывает точный домашний адрес. Сайт может фиксировать время посещения, тип браузера и ошибки.</p></article>
+    <article class="card"><h3>Разрешения приложений</h3><p>Приложение может запросить доступ к камере, микрофону, контактам, фото или геолокации. Разрешение следует давать, когда оно требуется для нужной функции. Настройки можно пересматривать в параметрах устройства.</p></article>
+    <article class="card"><h3>Аналитика и рекомендации</h3><p>Сервис может анализировать просмотры, клики и реакции для улучшения работы, подбора рекомендаций или измерения эффективности рекламы. Такие системы работают только с доступными им данными и не знают автоматически абсолютно всё о человеке.</p></article>
+    <article class="card"><h3>Объединение открытых сведений</h3><p>Несколько публичных публикаций — фотографии, отметки мест, интересы и расписание — иногда позволяют сделать выводы о привычках человека. Поэтому важно оценивать не только одну запись, но и совокупность открытых сведений.</p></article>
+  </section>
+  <section class="panel" id="panel-risks"><div class="card-grid cols2"><article class="card"><h3>Приватность</h3><p>Избыточная открытость может раскрыть сведения, которые пользователь не планировал сообщать широкой аудитории.</p></article><article class="card"><h3>Социальная инженерия</h3><p>Открытые сведения иногда используют для создания правдоподобных сообщений, фальшивых просьб и попыток получить коды подтверждения.</p></article><article class="card"><h3>Подмена личности</h3><p>Фотографии и сведения могут использоваться для создания фальшивых профилей. При подозрении нужно обратиться к платформе и сообщить близким.</p></article><article class="card"><h3>Репутация</h3><p>Старые публикации могут быть найдены позднее и показаны вне исходного контекста. Полезно периодически проверять свою публичную страницу.</p></article></div><div class="callout">Наличие цифрового следа не означает, что данные обязательно попадут к мошенникам. Риск зависит от типа данных, настроек и защиты аккаунта.</div></section>
+  <section class="panel" id="panel-rights"><article class="card"><h3>GDPR — Общий регламент по защите данных</h3><p>В ЕС GDPR устанавливает правила обработки персональных данных. Человек может получить информацию об обработке данных, запросить доступ к ним, исправление неточной информации, а в определённых случаях — удаление или ограничение обработки. Право на удаление не абсолютно: существуют предусмотренные законом исключения.</p></article><article class="card"><h3>Особая защита детей</h3><p>Данные детей нуждаются в особой защите. Информация об обработке должна быть доступной, ясной и соответствовать возрасту аудитории.</p></article><article class="card"><h3>Куда обращаться в Эстонии?</h3><p>В Эстонии надзорный орган по защите данных — Andmekaitse Inspektsioon. На официальном сайте можно найти разъяснения и контакты.</p><a href="https://www.aki.ee/" target="_blank" rel="noopener">Официальный сайт AKI ↗</a></article></section>
+  <section class="panel" id="panel-safety"><div class="card"><h3>ПАМЯТКА // Перед публикацией</h3><p>Проверь фон фото. Убери адреса и документы из кадра. Определи аудиторию публикации. Проверь геометки. Не публикуй чужие личные данные без разрешения. Не отправляй пароли и коды подтверждения. Пересмотри разрешения приложений.</p></div><div class="card"><h3>ПАМЯТКА // Защита аккаунта</h3><p>Используй уникальные пароли, менеджер паролей и двухфакторную аутентификацию. Проверяй отправителя и адрес ссылки. Не устанавливай приложения из сомнительных источников. Удаляй лишние разрешения и старые публичные сведения.</p></div></section>
+  <section class="panel" id="panel-sources">
+    <h3>Источники информации</h3>
+    <div class="source"><a href="https://www.aki.ee/uudised/ulemaailmne-laste-digiprivaatsuse-seire-tuvastas-nii-edusamme-kui-pusivaid-riske" target="_blank" rel="noopener">Эстонская Инспекция по защите данных — международный мониторинг детской цифровой приватности, 2026</a><small>Обзор международной выборки около 900 сайтов и приложений и отдельной выборки из 30 сервисов в Эстонии.</small></div>
+    <div class="source"><a href="https://www.edpb.europa.eu/topics/key-gdpr-concepts/children_en" target="_blank" rel="noopener">Европейский совет по защите данных — защита детей</a><small>Разъяснения об особой защите персональных данных детей.</small></div>
+    <div class="source"><a href="https://www.edpb.europa.eu/privacy-for-kids_en" target="_blank" rel="noopener">Европейский совет по защите данных — приватность для детей</a><small>Материалы по приватности для детей и подростков.</small></div>
+    <div class="source"><a href="https://commission.europa.eu/law/law-topic/data-protection/information-individuals_en" target="_blank" rel="noopener">Европейская комиссия — информация для граждан</a><small>Права пользователей по GDPR.</small></div>
+    <div class="source"><a href="https://www.commonsense.org/education/digital-literacy/understanding-my-digital-footprint" target="_blank" rel="noopener">Common Sense Education — понимание цифрового следа</a><small>Учебные материалы об активном и пассивном цифровом следе.</small></div>
+    <div class="source"><a href="https://www.coe.int/en/web/digital-citizenship-education" target="_blank" rel="noopener">Совет Европы — цифровая грамотность</a><small>Материалы о цифровой грамотности и безопасном поведении в сети.</small></div>
+    <p class="muted" style="font-size:11px;margin-top:12px">Фотографии загружаются из внешних интернет-источников. Для их отображения требуется подключение к интернету.</p>
+  </section>
+</div></main>
+
+<main id="surveyView" class="view"><div class="survey-wrap"><div class="section-hero"><div><div class="eyebrow">03 // АНОНИМНАЯ ОПЕРАЦИЯ</div><h2>Пройти <span class="green">опрос</span></h2><p class="lead">Семь вопросов о цифровом следе. Ответы помогут оценить, насколько школьники знакомы с темой и как относятся к защите данных.</p></div><div class="terminal"><div>> протокол_опроса.exe</div><div>> состояние: <span id="pollStatusText" class="green">ПРОВЕРКА...</span></div><div>> режим: анонимный</div><div>> личные данные: отключены</div><div class="warn">> имя не требуется. ФИО не собираются.</div></div></div>
+<div class="survey-shell"><div class="survey-frame"><div class="frame-head"><span><span class="led"></span>ЗАЩИЩЁННЫЙ_ОПРОС</span><span class="frame-dots"><i></i><i></i><i></i></span></div><div class="frame-body">
+  <section class="survey-screen active" id="surveyQuestions">
+    <div class="survey-label">АНОНИМНЫЙ ОПРОС // 7 ВОПРОСОВ</div>
+    <div class="survey-title">Начинаем <span class="green">опрос.</span></div>
+    <p class="survey-description">Отвечай честно. Здесь не нужно представляться: ФИО, телефон, электронная почта и никнеймы не запрашиваются. Участие добровольное. Ответы будут использованы только в общей статистике проекта.</p>
+    <div class="terminal" style="margin-bottom:16px"><div>> режим: анонимный</div><div>> личные данные: не запрашиваются</div><div class="warn">> семь вопросов. Никаких паролей. Никаких секретов.</div></div>
+    <div class="survey-label">ВОПРОС // <span id="questionNumber">01 / 07</span></div>
+    <div class="question-progress"><div id="questionProgress"></div></div>
+    <div class="question-text" id="questionText"></div>
+    <div class="option-list" id="optionList"></div>
+    <div class="survey-controls"><button class="btn secondary" id="questionBack">[ НАЗАД ]</button><button class="btn" id="questionNext">[ ДАЛЕЕ → ]</button></div>
+    <div class="survey-status">ОТВЕТЫ НЕ СОДЕРЖАТ ИМЕНИ ИЛИ КОНТАКТНЫХ ДАННЫХ.</div>
+  </section>
+  <section class="survey-screen" id="surveyReview"><div class="survey-label">ОТПРАВКА // ФИНАЛЬНЫЙ ШАГ</div><div class="survey-title">Почти <span class="green">готово.</span></div><p class="survey-description">Перед отправкой проверь, что понял условия. В Google Таблицу будут переданы только ответы на семь вопросов, случайный код записи и время отправки. ФИО и другие личные сведения не собираются.</p><label class="consent"><input id="surveyConsent" type="checkbox"><span>Я добровольно участвую в анонимном опросе и согласен(на) на сохранение моих ответов для подсчёта общей статистики.</span></label><div id="submitError" class="errorbox"></div><div class="survey-controls"><button class="btn secondary" id="reviewBack">[ НАЗАД ]</button><button class="btn" id="submitSurvey">[ ОТПРАВИТЬ ОТВЕТЫ ]</button></div></section>
+  <section class="survey-screen" id="surveyComplete"><div class="survey-label">ЗАДАНИЕ ЗАВЕРШЕНО</div><div class="survey-title green">Ответ принят.</div><p class="survey-description" id="completeText">Твои ответы добавлены в общую статистику. Имя и контакты не записывались.</p><div class="terminal"><div>> отправка: завершена</div><div>> участник: анонимный</div><div>> общая статистика: обновлена</div><div class="warn">> отлично, агент. И не нажимай на подозрительные ссылки.</div></div><div class="actions"><button class="btn" id="viewResults">[ ПОСМОТРЕТЬ ГРАФИКИ ]</button><button class="btn secondary" id="closeSurvey">[ ЗАКРЫТЬ ]</button></div></section>
+  <section class="survey-screen" id="surveyClosed"><div class="survey-label">ДОСТУП // 423</div><div class="survey-title red">Опрос закрыт.</div><p class="survey-description">Организатор временно остановил приём ответов. Попробуй зайти позже.</p></section>
+</div></div><p class="muted" style="font-size:11px;margin-top:12px">АНОНИМНОСТЬ: не указывай ФИО, телефон, адрес, электронную почту или свой настоящий публичный ник.</p></div></div></main>
+
+<footer class="foot"><span>ЦИФРОВОЙ_СЛЕД // УЧЕБНЫЙ ПРОЕКТ · 9 КЛАСС</span><span>БЕЗ ЛИЧНЫХ ДАННЫХ. ТОЛЬКО ОТВЕТЫ.</span><span>ЗАЩИТА: ВКЛЮЧЕНА</span></footer>
+</div>
+
+<iframe id="dtApiFrame" name="dtApiFrame" title="Отправка анонимного ответа" aria-hidden="true" tabindex="-1" style="position:absolute;width:1px;height:1px;left:-9999px;border:0;opacity:0"></iframe>
+<script>
+// ВСТАВЬ СЮДА URL ВЕБ-ПРИЛОЖЕНИЯ APPS SCRIPT, который заканчивается на /exec.
+// Этот адрес нужен только для связи GitHub Pages с существующей Google Таблицей.
+const DT_API_URL = 'PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE';
+
+// Если внешний фотохостинг недоступен, показываем встроенную иллюстрацию.
+// Это не даёт изображениям исчезать на телефонах и при медленном интернете.
+function показатьЗапасноеИзображение(img){
+  if(!img || img.dataset.offlineFallback==='1') return;
+  img.dataset.offlineFallback='1';
+  img.onerror=null;
+  img.classList.add('offline-image');
+  const description=String(img.alt || 'Цифровая иллюстрация');
+  const safe=description.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[ch]));
+  let art='';
+  if(/смартфон|телефон|фото|публикац|пользователь/i.test(description)){
+    art='<rect x="420" y="125" width="250" height="470" rx="34" fill="#0a1a10" stroke="#61ff88" stroke-width="9"/><rect x="445" y="170" width="200" height="330" rx="12" fill="#102c19" stroke="#b5ffc3" stroke-width="3"/><circle cx="545" cy="535" r="17" fill="none" stroke="#61ff88" stroke-width="5"/><path d="M475 430l55-75 45 54 28-34 29 55z" fill="#61ff88" opacity=".55"/><circle cx="500" cy="245" r="24" fill="#d4ff42" opacity=".8"/>';
+  } else if(/сервер|сеть|техническ|систем|компьютер|монитор|разработк/i.test(description)){
+    art='<rect x="300" y="150" width="190" height="430" rx="12" fill="#0b1d10" stroke="#61ff88" stroke-width="7"/><rect x="520" y="150" width="190" height="430" rx="12" fill="#0b1d10" stroke="#61ff88" stroke-width="7"/><g fill="#61ff88"><rect x="330" y="195" width="130" height="48" rx="5" opacity=".35"/><rect x="330" y="270" width="130" height="48" rx="5" opacity=".55"/><rect x="330" y="345" width="130" height="48" rx="5" opacity=".35"/><rect x="550" y="195" width="130" height="48" rx="5" opacity=".55"/><rect x="550" y="270" width="130" height="48" rx="5" opacity=".35"/><rect x="550" y="345" width="130" height="48" rx="5" opacity=".55"/></g><g fill="#d4ff42"><circle cx="350" cy="220" r="7"/><circle cx="570" cy="220" r="7"/><circle cx="350" cy="295" r="7"/><circle cx="570" cy="295" r="7"/></g>';
+  } else if(/замок|безопас|приват|защит|кибер/i.test(description)){
+    art='<rect x="330" y="300" width="340" height="255" rx="28" fill="#102c19" stroke="#61ff88" stroke-width="9"/><path d="M410 300v-75c0-110 180-110 180 0v75" fill="none" stroke="#b5ffc3" stroke-width="22" stroke-linecap="round"/><circle cx="500" cy="405" r="34" fill="#d4ff42"/><path d="M500 430v55" stroke="#d4ff42" stroke-width="18" stroke-linecap="round"/>';
+  } else if(/данн|анализ|график|опрос/i.test(description)){
+    art='<path d="M260 580V250M260 580H760" stroke="#b5ffc3" stroke-width="8"/><rect x="330" y="410" width="75" height="170" fill="#61ff88" opacity=".65"/><rect x="455" y="330" width="75" height="250" fill="#61ff88" opacity=".8"/><rect x="580" y="235" width="75" height="345" fill="#d4ff42" opacity=".85"/><path d="M300 360l155-90 125 25 145-145" fill="none" stroke="#b5ffc3" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="725" cy="175" r="13" fill="#d4ff42"/>';
+  } else {
+    art='<circle cx="500" cy="350" r="190" fill="none" stroke="#61ff88" stroke-width="7" opacity=".7"/><circle cx="500" cy="350" r="125" fill="none" stroke="#d4ff42" stroke-width="4" stroke-dasharray="15 14"/><path d="M500 150v400M300 350h400M360 210l280 280M640 210L360 490" stroke="#61ff88" stroke-width="4" opacity=".55"/><circle cx="500" cy="350" r="42" fill="#61ff88" opacity=".6"/>';
+  }
+  const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#07150b"/><stop offset="1" stop-color="#102c19"/></linearGradient><pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0H0V34" fill="none" stroke="#61ff88" stroke-opacity=".13" stroke-width="1"/></pattern><radialGradient id="glow"><stop stop-color="#61ff88" stop-opacity=".22"/><stop offset="1" stop-color="#61ff88" stop-opacity="0"/></radialGradient></defs><rect width="1000" height="700" fill="url(#bg)"/><rect width="1000" height="700" fill="url(#grid)"/><circle cx="500" cy="330" r="360" fill="url(#glow)"/>'+art+'<path d="M60 620H940" stroke="#61ff88" stroke-opacity=".5"/><text x="62" y="660" fill="#b5ffc3" font-family="monospace" font-size="23">'+safe+'</text><text x="865" y="72" fill="#61ff88" font-family="monospace" font-size="18">DT//IMG</text></svg>';
+  img.src='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+}
+
+// ----- SLIDES -----
+const slides=[...document.querySelectorAll('.slide')];
+let currentSlide=0;
+const dotsBox=document.getElementById('dots');
+slides.forEach((slide,i)=>{const b=document.createElement('button');b.className='dot'+(i===0?' active':'');b.title=`Слайд ${i+1}: ${slide.dataset.title}`;b.setAttribute('aria-label',b.title);b.addEventListener('click',()=>showSlide(i));dotsBox.appendChild(b)});
+const dots=[...dotsBox.children];
+function showSlide(index){currentSlide=Math.max(0,Math.min(slides.length-1,index));slides.forEach((s,i)=>s.classList.toggle('active',i===currentSlide));dots.forEach((d,i)=>d.classList.toggle('active',i===currentSlide));document.getElementById('slideCount').textContent=String(currentSlide+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');document.getElementById('progress').style.width=((currentSlide+1)/slides.length*100)+'%';document.getElementById('prev').disabled=currentSlide===0;document.getElementById('next').disabled=currentSlide===slides.length-1;if(currentSlide===slides.length-1)refreshStats();}
+document.getElementById('prev').addEventListener('click',()=>showSlide(currentSlide-1));
+document.getElementById('next').addEventListener('click',()=>showSlide(currentSlide+1));
+
+// ----- NAVIGATION -----
+function showView(which){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(which+'View').classList.add('active');document.querySelectorAll('[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===which));window.scrollTo({top:0,behavior:'smooth'});if(which==='survey'){if(!surveyInitialized)beginSurvey();checkPollStatus();}if(which==='slides'&&currentSlide===slides.length-1)refreshStats();}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.querySelectorAll('[data-panel]').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('[data-panel]').forEach(b=>b.classList.toggle('active',b===btn));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id==='panel-'+btn.dataset.panel));}));
+document.addEventListener('keydown',e=>{if(document.getElementById('slidesView').classList.contains('active')){if(e.key==='ArrowRight')showSlide(currentSlide+1);if(e.key==='ArrowLeft')showSlide(currentSlide-1);}});
+
+// ----- MATRIX BACKGROUND (decorative, no network requests) -----
+(function(){
+  const canvas=document.getElementById('matrix');
+  const ctx=canvas && canvas.getContext ? canvas.getContext('2d') : null;
+  if(!ctx) return;
+  let width=0,height=0,columns=[],font=14,ratio=1,lastFrame=0;
+  const chars='01アイウエオカキクケコサシスセソタチツテト';
+  function resize(){
+    ratio=Math.min(window.devicePixelRatio||1,1.5);
+    width=canvas.width=Math.max(1,Math.floor(window.innerWidth*ratio));
+    height=canvas.height=Math.max(1,Math.floor(window.innerHeight*ratio));
+    canvas.style.width=window.innerWidth+'px';
+    canvas.style.height=window.innerHeight+'px';
+    font=14*ratio;
+    columns=Array(Math.ceil(width/font)).fill(0).map(()=>Math.random()*height/font);
+  }
+  window.addEventListener('resize',resize,{passive:true});
+  resize();
+  function draw(time){
+    if(time-lastFrame>=40){
+      lastFrame=time;
+      ctx.fillStyle='rgba(3,9,5,0.09)';
+      ctx.fillRect(0,0,width,height);
+      ctx.font=font+'px monospace';
+      ctx.fillStyle='#61ff88';
+      columns.forEach((y,i)=>{
+        const char=chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(char,i*font,y*font);
+        if(y*font>height&&Math.random()>.978) columns[i]=0;
+        else columns[i]+=.75;
+      });
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+// ----- QUIZ -----
+const quizQuestions=[
+ {q:'Что такое цифровой след?',a:['Только фотографии в социальных сетях','Совокупность данных о действиях человека в цифровой среде','Следы от компьютера на столе'],correct:1},
+ {q:'Какой пример относится к активному цифровому следу?',a:['Самостоятельно опубликованный комментарий','Автоматическая запись технических данных','Системный журнал сервера'],correct:0},
+ {q:'Что лучше сделать перед установкой приложения?',a:['Разрешить абсолютно всё','Передать пароль другу','Проверить разрешения и политику приватности'],correct:2},
+ {q:'Всегда ли удаление публикации убирает её копии?',a:['Да, всегда','Нет, копии могли сохранить другие люди','Только если выключить телефон'],correct:1},
+ {q:'Что помогает защитить аккаунт?',a:['Уникальный пароль и двухфакторная аутентификация','Один пароль для всех сайтов','Публикация пароля в профиле'],correct:0}
+];
+const quizHost=document.getElementById('knowledgeQuiz');
+quizQuestions.forEach((q,index)=>{const card=document.createElement('article');card.className='card';const title=document.createElement('h3');title.textContent=String(index+1)+'. '+q.q;card.appendChild(title);q.a.forEach((answer,optionIndex)=>{const label=document.createElement('label');label.className='option';const input=document.createElement('input');input.type='radio';input.name='knowledge_'+index;input.value=String(optionIndex);const text=document.createElement('span');text.textContent=answer;label.append(input,text);card.appendChild(label);});quizHost.appendChild(card);});
+document.getElementById('checkKnowledge').addEventListener('click',()=>{let score=0,answered=0;quizQuestions.forEach((q,index)=>{const chosen=document.querySelector('input[name="knowledge_'+index+'"]:checked');if(chosen){answered++;if(Number(chosen.value)===q.correct)score++;}});const result=document.getElementById('knowledgeResult');result.style.display='block';if(answered!==quizQuestions.length){result.textContent='Ответь на все пять вопросов. Система не принимает пустые пакеты. Заполни пропуски, агент.';return;}result.textContent='Результат: '+score+'/5. '+(score===5?'Идеально. Доступ к базе знаний открыт.':score>=3?'Неплохо. Но пару файлов в голове стоит обновить.':'Доступ ограничен. Вернись к слайдам, изучи материалы и попробуй ещё раз.');});
+document.getElementById('resetKnowledge').addEventListener('click',()=>{document.querySelectorAll('#knowledgeQuiz input').forEach(input=>input.checked=false);const result=document.getElementById('knowledgeResult');result.style.display='none';result.textContent='';});
+
+// ----- SURVEY: exact seven questions from the written project -----
+const surveyQuestions=[
+ {id:'q1',text:'Знаешь ли ты, что такое цифровой след?',options:['Да, хорошо знаю','Что-то слышал(а)','Нет, не знаю']},
+ {id:'q2',text:'Как часто ты пользуешься социальными сетями?',options:['Несколько раз в день','Один раз в день','Редко']},
+ {id:'q3',text:'Читаешь ли ты правила конфиденциальности приложений?',options:['Всегда','Иногда','Практически никогда']},
+ {id:'q4',text:'Проверяешь ли ты настройки приватности своих аккаунтов?',options:['Регулярно','Иногда','Никогда']},
+ {id:'q5',text:'Задумываешься ли ты перед публикацией фотографий о том, какую информацию они раскрывают?',options:['Всегда','Иногда','Нет']},
+ {id:'q6',text:'Знаешь ли ты, что приложения могут собирать технические данные об использовании?',options:['Да','Что-то слышал(а)','Нет']},
+ {id:'q7',text:'Хотелось бы тебе узнать больше о защите личных данных?',options:['Да','Возможно','Нет']}
+];
+let surveyIndex=0;
+let surveyAnswers={};
+let surveyInitialized=false;
+function showSurveyScreen(id){document.querySelectorAll('.survey-screen').forEach(s=>s.classList.toggle('active',s.id===id));}
+function beginSurvey(){surveyIndex=0;surveyAnswers={};renderSurveyQuestion();showSurveyScreen('surveyQuestions');surveyInitialized=true;}
+
+function renderSurveyQuestion(){const q=surveyQuestions[surveyIndex];document.getElementById('questionNumber').textContent=String(surveyIndex+1).padStart(2,'0')+' / 07';document.getElementById('questionProgress').style.width=((surveyIndex+1)/surveyQuestions.length*100)+'%';document.getElementById('questionText').textContent=q.text;const list=document.getElementById('optionList');list.innerHTML='';q.options.forEach((option,index)=>{const label=document.createElement('label');label.className='option';const radio=document.createElement('input');radio.type='radio';radio.name='surveyAnswer';radio.value=option;radio.checked=surveyAnswers[q.id]===option;const span=document.createElement('span');span.textContent=option;label.append(radio,span);label.addEventListener('click',()=>{surveyAnswers[q.id]=option;});list.appendChild(label);});document.getElementById('questionBack').disabled=surveyIndex===0;document.getElementById('questionNext').textContent=surveyIndex===surveyQuestions.length-1?'[ ПРОВЕРИТЬ ОТВЕТЫ → ]':'[ ДАЛЕЕ → ]';}
+document.getElementById('questionBack').addEventListener('click',()=>{if(surveyIndex>0){surveyIndex--;renderSurveyQuestion();}});
+document.getElementById('questionNext').addEventListener('click',()=>{const chosen=document.querySelector('input[name="surveyAnswer"]:checked');if(chosen)surveyAnswers[surveyQuestions[surveyIndex].id]=chosen.value;if(!surveyAnswers[surveyQuestions[surveyIndex].id]){alert('Агент, выбери один вариант ответа. Система не умеет читать мысли. Пока что.');return;}if(surveyIndex<surveyQuestions.length-1){surveyIndex++;renderSurveyQuestion();}else{showSurveyScreen('surveyReview');}});
+document.getElementById('reviewBack').addEventListener('click',()=>{surveyIndex=surveyQuestions.length-1;renderSurveyQuestion();showSurveyScreen('surveyQuestions');});
+
+// ----- GOOGLE SHEETS API: GitHub Pages -> Google Apps Script -----
+// Статистика читается через JSONP (только агрегированные данные).
+// Ответы анкеты отправляются POST-формой в скрытый iframe, не через JSONP.
+function apiIsConfigured(){
+  return /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(String(DT_API_URL||'').trim());
+}
+
+function requestStatsJsonp(){
+  return new Promise((resolve,reject)=>{
+    if(!apiIsConfigured()){
+      reject(new Error('Не указан адрес API. Вставь URL Apps Script в переменную DT_API_URL в начале index.html.'));
+      return;
+    }
+    const callbackName='dtStats_'+Date.now()+'_'+Math.random().toString(36).slice(2,9);
+    const script=document.createElement('script');
+    let finished=false;
+    const cleanup=()=>{
+      if(finished)return;
+      finished=true;
+      clearTimeout(timer);
+      delete window[callbackName];
+      script.remove();
+    };
+    window[callbackName]=(data)=>{cleanup();resolve(data);};
+    script.onerror=()=>{cleanup();reject(new Error('Не удалось связаться с Google Apps Script. Проверь адрес /exec и доступ веб-приложения.'));};
+    const timer=setTimeout(()=>{cleanup();reject(new Error('Google Apps Script не ответил вовремя. Попробуй обновить страницу.'));},18000);
+    script.src=DT_API_URL+'?action=stats&callback='+encodeURIComponent(callbackName)+'&_='+Date.now();
+    script.async=true;
+    document.head.appendChild(script);
+  });
+}
+
+function checkPollStatus(){
+  const status=document.getElementById('pollStatusText');
+  if(!apiIsConfigured()){
+    status.textContent='API НЕ НАСТРОЕН';
+    status.className='red';
+    return;
+  }
+  status.textContent='ПРОВЕРКА...';
+  status.className='warn';
+  requestStatsJsonp().then(data=>{
+    if(!data||!data.ready)throw new Error(data&&data.error?data.error:'Таблица не готова.');
+    status.textContent=data.open?'ОТКРЫТ':'ЗАКРЫТ';
+    status.className=data.open?'green':'red';
+    if(!data.open){surveyInitialized=false;showSurveyScreen('surveyClosed');}
+    else if(document.getElementById('surveyClosed').classList.contains('active')){beginSurvey();}
+  }).catch(err=>{
+    status.textContent='НЕТ СВЯЗИ';
+    status.className='red';
+    console.error(err);
+    const error=document.getElementById('submitError');
+    if(error){error.textContent=err.message;error.style.display='block';}
+  });
+}
+
+function sendSurveyPost(){
+  return new Promise((resolve,reject)=>{
+    if(!apiIsConfigured()){
+      reject(new Error('Не настроено соединение с Google Таблицей. Вставь URL Apps Script в DT_API_URL.'));
+      return;
+    }
+    const nonce=Date.now().toString(36)+'_'+Math.random().toString(36).slice(2)+'_'+Math.random().toString(36).slice(2);
+    const frame=document.getElementById('dtApiFrame');
+    if(!frame){reject(new Error('Не найден скрытый iframe для отправки. Обнови index.html.'));return;}
+
+    let finished=false;
+    const finish=(callback,value)=>{
+      if(finished)return;
+      finished=true;
+      clearTimeout(timer);
+      window.removeEventListener('message',onMessage);
+      callback(value);
+    };
+    const onMessage=(event)=>{
+      const data=event.data;
+      if(!data||data.type!=='DIGITAL_TRACE_SUBMIT_RESULT'||data.nonce!==nonce)return;
+      if(data.success){finish(resolve,data);}
+      else{finish(reject,new Error(data.message||'Google Apps Script отклонил отправку.'));}
+    };
+    window.addEventListener('message',onMessage);
+    const timer=setTimeout(()=>finish(reject,new Error('Сервер не подтвердил отправку за 25 секунд. Проверь публикацию Apps Script и попробуй ещё раз.')),25000);
+
+    const form=document.createElement('form');
+    form.method='POST';
+    form.action=DT_API_URL;
+    form.target='dtApiFrame';
+    form.acceptCharset='UTF-8';
+    form.style.display='none';
+    const fields={action:'submit',consent:'true',nonce:nonce};
+    surveyQuestions.forEach(q=>fields[q.id]=surveyAnswers[q.id]);
+    Object.keys(fields).forEach(name=>{
+      const input=document.createElement('input');
+      input.type='hidden';input.name=name;input.value=fields[name];form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    try{form.submit();}catch(err){finish(reject,new Error('Не удалось отправить форму: '+err.message));}
+    setTimeout(()=>form.remove(),1500);
+  });
+}
+
+document.getElementById('submitSurvey').addEventListener('click',async()=>{
+  const error=document.getElementById('submitError');
+  error.style.display='none';
+  if(document.getElementById('surveyConsent').checked!==true){
+    error.textContent='Поставь отметку о добровольном участии. Без согласия ответы не отправляются.';
+    error.style.display='block';return;
+  }
+  if(surveyQuestions.some(q=>!surveyAnswers[q.id])){
+    error.textContent='Не все вопросы заполнены. Вернись назад и ответь на каждый вопрос.';
+    error.style.display='block';return;
+  }
+  if(!apiIsConfigured()){
+    error.textContent='Не настроена ссылка API. Вставь URL веб-приложения Google Apps Script в DT_API_URL в начале index.html.';
+    error.style.display='block';return;
+  }
+  const button=document.getElementById('submitSurvey');
+  button.disabled=true;button.textContent='[ ОТПРАВКА... ]';
+  try{
+    const result=await sendSurveyPost();
+    button.disabled=false;button.textContent='[ ОТПРАВИТЬ ОТВЕТЫ ]';
+    document.getElementById('completeText').textContent=`Ответ принят. Всего получено анкет: ${result.totalResponses}. Имя и контактные сведения не сохранялись.`;
+    showSurveyScreen('surveyComplete');
+    refreshStats();
+  }catch(err){
+    button.disabled=false;button.textContent='[ ОТПРАВИТЬ ОТВЕТЫ ]';
+    error.textContent=err&&err.message?err.message:'Не удалось отправить ответы. Попробуй ещё раз.';
+    error.style.display='block';
+  }
+});
+document.getElementById('viewResults').addEventListener('click',()=>{showView('slides');showSlide(slides.length-1);});
+document.getElementById('closeSurvey').addEventListener('click',()=>{surveyInitialized=false;showView('slides');});
+
+// ----- AGGREGATE CHARTS: no participant names or individual rows -----
+function refreshStats(){
+  const container=document.getElementById('statsContainer');
+  const meta=document.getElementById('statsMeta');
+  if(!apiIsConfigured()){
+    meta.textContent='API не настроен.';
+    container.innerHTML='<div class="emptychart">Вставь URL веб-приложения Apps Script в переменную DT_API_URL в начале index.html.</div>';
+    return;
+  }
+  meta.textContent='Загрузка статистики из Google Таблицы...';
+  requestStatsJsonp().then(renderStats).catch(err=>{
+    meta.textContent='Ошибка загрузки статистики';
+    container.innerHTML='<div class="emptychart">'+escapeHtml(err&&err.message?err.message:'Не удалось получить статистику.')+'</div>';
+  });
+}
+function renderStats(data){const container=document.getElementById('statsContainer');const meta=document.getElementById('statsMeta');container.innerHTML='';if(!data||!data.ready){meta.textContent='Таблица ещё не настроена.';container.innerHTML='<div class="emptychart">Сначала запусти setupProjectData() в редакторе Google Apps Script.</div>';return;}meta.textContent=`Всего получено анкет: ${data.totalResponses}. Статус опроса: ${data.open?'ОТКРЫТ':'ЗАКРЫТ'}. Данные обновлены при загрузке слайда.`;if(!data.totalResponses){container.innerHTML='<div class="emptychart">Пока нет ответов. Перейди во вкладку «Пройти опрос», заполни анкету и отправь ответы — здесь появятся настоящие диаграммы.</div>';return;}data.questions.forEach((q,index)=>{const card=document.createElement('article');card.className='chart-card';const title=document.createElement('h3');title.textContent=String(index+1).padStart(2,'0')+' // '+q.title;card.appendChild(title);q.options.forEach(opt=>{const row=document.createElement('div');row.className='barline';const label=document.createElement('span');label.textContent=opt.label;const track=document.createElement('div');track.className='bartrack';const fill=document.createElement('div');fill.className='barfill';fill.style.width=opt.percent+'%';track.appendChild(fill);const value=document.createElement('strong');value.textContent=opt.count+' · '+String(opt.percent).replace('.',',')+'%';row.append(label,track,value);card.appendChild(row);});container.appendChild(card);});}
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+document.getElementById('refreshStats').addEventListener('click',refreshStats);
+showSlide(0);
+</script>
+</body>
+</html>
